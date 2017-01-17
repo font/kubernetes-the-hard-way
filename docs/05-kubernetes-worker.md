@@ -35,11 +35,11 @@ sudo cp ca.pem kubernetes-key.pem kubernetes.pem /var/lib/kubernetes/
 Kubernetes should be compatible with the Docker 1.9.x - 1.12.x:
 
 ```
-wget https://get.docker.com/builds/Linux/x86_64/docker-1.12.1.tgz
+wget https://get.docker.com/builds/Linux/x86_64/docker-1.12.5.tgz
 ```
 
 ```
-tar -xvf docker-1.12.1.tgz
+tar -xvf docker-1.12.5.tgz
 ```
 
 ```
@@ -101,13 +101,13 @@ sudo tar -xvf cni-07a8a28637e97b22eb8dfe710eeae1344f69d16e.tar.gz -C /opt/cni
 Download and install the Kubernetes worker binaries:
 
 ```
-wget https://storage.googleapis.com/kubernetes-release/release/v1.4.0/bin/linux/amd64/kubectl
+wget https://storage.googleapis.com/kubernetes-release/release/v1.5.1/bin/linux/amd64/kubectl
 ```
 ```
-wget https://storage.googleapis.com/kubernetes-release/release/v1.4.0/bin/linux/amd64/kube-proxy
+wget https://storage.googleapis.com/kubernetes-release/release/v1.5.1/bin/linux/amd64/kube-proxy
 ```
 ```
-wget https://storage.googleapis.com/kubernetes-release/release/v1.4.0/bin/linux/amd64/kubelet
+wget https://storage.googleapis.com/kubernetes-release/release/v1.5.1/bin/linux/amd64/kubelet
 ```
 
 ```
@@ -158,7 +158,6 @@ ExecStart=/usr/bin/kubelet \
   --cloud-provider= \
   --cluster-dns=10.32.0.10 \
   --cluster-domain=cluster.local \
-  --configure-cbr0=true \
   --container-runtime=docker \
   --docker=unix:///var/run/docker.sock \
   --network-plugin=kubenet \
@@ -179,6 +178,11 @@ WantedBy=multi-user.target" > /etc/systemd/system/kubelet.service'
 ```
 sudo systemctl daemon-reload
 sudo systemctl enable kubelet
+```
+
+Now make sure you run this command in sequential order from worker0 to workerX so that each worker gets assigned the POD CIDR that best corresponds with that node's IP address. This makes configuring the routing rules later on much easier.
+
+```
 sudo systemctl start kubelet
 ```
 

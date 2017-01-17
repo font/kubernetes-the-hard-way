@@ -29,7 +29,7 @@ Run the following commands on `controller0`, `controller1`, `controller2`:
 
 ### TLS Certificates
 
-The TLS certificates created in the [Setting up a CA and TLS Cert Generation](02-certificate-authority.md) lab will be used to secure communication between the Kubernetes API server and Kubernetes clients such as `kubectl` and the `kubelet` agent. The TLS certificates will also be used to authenticate the Kubernetes API server to etcd via TLC client auth.
+The TLS certificates created in the [Setting up a CA and TLS Cert Generation](02-certificate-authority.md) lab will be used to secure communication between the Kubernetes API server and Kubernetes clients such as `kubectl` and the `kubelet` agent. The TLS certificates will also be used to authenticate the Kubernetes API server to etcd via TLS client auth.
 
 Copy the TLS certificates to the Kubernetes configuration directory:
 
@@ -46,16 +46,16 @@ sudo cp ca.pem kubernetes-key.pem kubernetes.pem /var/lib/kubernetes/
 Download the official Kubernetes release binaries:
 
 ```
-wget https://storage.googleapis.com/kubernetes-release/release/v1.4.0/bin/linux/amd64/kube-apiserver
+wget https://storage.googleapis.com/kubernetes-release/release/v1.5.1/bin/linux/amd64/kube-apiserver
 ```
 ```
-wget https://storage.googleapis.com/kubernetes-release/release/v1.4.0/bin/linux/amd64/kube-controller-manager
+wget https://storage.googleapis.com/kubernetes-release/release/v1.5.1/bin/linux/amd64/kube-controller-manager
 ```
 ```
-wget https://storage.googleapis.com/kubernetes-release/release/v1.4.0/bin/linux/amd64/kube-scheduler
+wget https://storage.googleapis.com/kubernetes-release/release/v1.5.1/bin/linux/amd64/kube-scheduler
 ```
 ```
-wget https://storage.googleapis.com/kubernetes-release/release/v1.4.0/bin/linux/amd64/kubectl
+wget https://storage.googleapis.com/kubernetes-release/release/v1.5.1/bin/linux/amd64/kubectl
 ```
 
 Install the Kubernetes binaries:
@@ -143,8 +143,7 @@ INTERNAL_IP=$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)
 Create the systemd unit file:
 
 ```
-cat > kube-apiserver.service <<"EOF"
-[Unit]
+echo '[Unit]
 Description=Kubernetes API Server
 Documentation=https://github.com/GoogleCloudPlatform/kubernetes
 
@@ -173,8 +172,7 @@ Restart=on-failure
 RestartSec=5
 
 [Install]
-WantedBy=multi-user.target
-EOF
+WantedBy=multi-user.target' > kube-apiserver.service
 ```
 
 ```
@@ -199,8 +197,7 @@ sudo systemctl status kube-apiserver --no-pager
 ### Kubernetes Controller Manager
 
 ```
-cat > kube-controller-manager.service <<"EOF"
-[Unit]
+echo '[Unit]
 Description=Kubernetes Controller Manager
 Documentation=https://github.com/GoogleCloudPlatform/kubernetes
 
@@ -219,8 +216,7 @@ Restart=on-failure
 RestartSec=5
 
 [Install]
-WantedBy=multi-user.target
-EOF
+WantedBy=multi-user.target' > kube-controller-manager.service
 ```
 
 ```
@@ -245,8 +241,7 @@ sudo systemctl status kube-controller-manager --no-pager
 ### Kubernetes Scheduler
 
 ```
-cat > kube-scheduler.service <<"EOF"
-[Unit]
+echo '[Unit]
 Description=Kubernetes Scheduler
 Documentation=https://github.com/GoogleCloudPlatform/kubernetes
 
@@ -259,8 +254,7 @@ Restart=on-failure
 RestartSec=5
 
 [Install]
-WantedBy=multi-user.target
-EOF
+WantedBy=multi-user.target' > kube-scheduler.service
 ```
 
 ```
@@ -330,7 +324,8 @@ KUBERNETES_PUBLIC_ADDRESS=$(gcloud compute addresses describe kubernetes \
 gcloud compute forwarding-rules create kubernetes-rule \
   --address ${KUBERNETES_PUBLIC_ADDRESS} \
   --ports 6443 \
-  --target-pool kubernetes-pool
+  --target-pool kubernetes-pool \
+  --region us-west1
 ```
 
 ### AWS
