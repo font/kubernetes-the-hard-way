@@ -61,8 +61,7 @@ sudo mkdir -p /var/lib/etcd
 The etcd server will be started and managed by systemd. Create the etcd systemd unit file:
 
 ```
-cat > etcd.service <<"EOF"
-[Unit]
+echo '[Unit]
 Description=etcd
 Documentation=https://github.com/coreos
 
@@ -86,8 +85,7 @@ Restart=on-failure
 RestartSec=5
 
 [Install]
-WantedBy=multi-user.target
-EOF
+WantedBy=multi-user.target' > etcd.service
 ```
 
 ### Set The Internal IP Address
