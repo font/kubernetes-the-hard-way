@@ -19,5 +19,5 @@ fi
 ./kubectl-remote-access.sh
 ./create-routes.sh
 ./deploy-dns.sh
-./smoke-test.sh
+#./smoke-test.sh
 #./cleanup.sh

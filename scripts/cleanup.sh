@@ -35,7 +35,6 @@ gcloud -q compute firewall-rules delete \
   kubernetes-allow-internal-podcidr \
   kubernetes-allow-rdp \
   kubernetes-allow-ssh \
-  kubernetes-nginx-service \
   kubernetes-rgw-service
 
 for i in $(eval echo "{0..${NUM_WORKERS}}"); do
