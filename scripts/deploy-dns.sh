@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 set -x
 
 kubectl create -f https://raw.githubusercontent.com/font/kubernetes-the-hard-way/1.5.1/services/kubedns.yaml
