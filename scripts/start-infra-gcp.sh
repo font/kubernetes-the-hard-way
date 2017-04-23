@@ -14,7 +14,7 @@ gcloud compute networks create kubernetes --mode custom
 gcloud compute networks subnets create kubernetes \
   --network kubernetes \
   --range 10.240.0.0/24 \
-  --region us-west1
+  --region us-central1
 
 gcloud compute firewall-rules create kubernetes-allow-icmp \
   --allow icmp \
@@ -53,7 +53,7 @@ gcloud compute firewall-rules create kubernetes-allow-api-server \
 
 gcloud compute firewall-rules list --filter "network=kubernetes"
 
-gcloud compute addresses create kubernetes --region=us-west1
+gcloud compute addresses create kubernetes --region=us-central1
 
 gcloud compute addresses list kubernetes
 

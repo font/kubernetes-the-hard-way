@@ -151,7 +151,7 @@ gcloud compute http-health-checks create kube-apiserver-check \
 
 gcloud compute target-pools create kubernetes-pool \
   --http-health-check=kube-apiserver-check \
-  --region us-west1
+  --region us-central1
 
 for i in $(eval echo "{0..${NUM_CONTROLLERS}}"); do
     hosts="${hosts}controller${i},"
@@ -169,4 +169,4 @@ gcloud compute forwarding-rules create kubernetes-rule \
   --address ${KUBERNETES_PUBLIC_ADDRESS} \
   --ports 6443 \
   --target-pool kubernetes-pool \
-  --region us-west1
+  --region us-central1
