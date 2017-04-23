@@ -32,13 +32,13 @@ for i in $(eval echo "{0..${NUM_CONTROLLERS}}"); do
 
     gcloud compute ssh controller${i} --command "sudo mv kube-apiserver kube-controller-manager kube-scheduler kubectl /usr/bin/"
 
-    gcloud compute ssh controller${i} --command "wget https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/token.csv"
+    gcloud compute ssh controller${i} --command "wget https://raw.githubusercontent.com/font/kubernetes-the-hard-way/scripts/token.csv"
 
     gcloud compute ssh controller${i} --command "cat token.csv"
 
     gcloud compute ssh controller${i} --command "sudo mv token.csv /var/lib/kubernetes/"
 
-    gcloud compute ssh controller${i} --command "wget https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/authorization-policy.jsonl"
+    gcloud compute ssh controller${i} --command "wget https://raw.githubusercontent.com/font/kubernetes-the-hard-way/scripts/authorization-policy.jsonl"
 
     gcloud compute ssh controller${i} --command "cat authorization-policy.jsonl"
 
@@ -150,7 +150,8 @@ gcloud compute http-health-checks create kube-apiserver-check \
   --request-path /healthz
 
 gcloud compute target-pools create kubernetes-pool \
-  --http-health-check=kube-apiserver-check
+  --http-health-check=kube-apiserver-check \
+  --region us-west1
 
 for i in $(eval echo "{0..${NUM_CONTROLLERS}}"); do
     hosts="${hosts}controller${i},"

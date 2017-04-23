@@ -84,7 +84,7 @@ The other components, mainly the `scheduler` and `controller manager`, access th
 Download the example token file:
 
 ```
-wget https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/token.csv
+wget https://raw.githubusercontent.com/font/kubernetes-the-hard-way/scripts/token.csv
 ```
 
 Review the example token file and replace the default token.
@@ -106,7 +106,7 @@ Attribute-Based Access Control (ABAC) will be used to authorize access to the Ku
 Download the example authorization policy file:
 
 ```
-wget https://raw.githubusercontent.com/kelseyhightower/kubernetes-the-hard-way/master/authorization-policy.jsonl
+wget https://raw.githubusercontent.com/font/kubernetes-the-hard-way/scripts/authorization-policy.jsonl
 ```
 
 Review the example authorization policy file. No changes are required.
